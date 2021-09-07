@@ -3,7 +3,7 @@ import { Message } from '@moviestory/api-interfaces';
 
 const app = express();
 
-const greeting: Message = { message: 'Welcome to api!' };
+const greeting: Message = { message: 'Welcome to api 2!' };
 
 app.get('/api', (req, res) => {
   res.send(greeting);
