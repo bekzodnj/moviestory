@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
-import moviePoster from '../../assets/movie-posters/dark-knight.jpg';
-import matrixPoster from '../../assets/movie-posters/vanilla.jpg';
+import { moviesArr } from '../../assets/movieData';
 
 const MovieCardContainer = styled.div`
   display: flex;
@@ -9,30 +8,26 @@ const MovieCardContainer = styled.div`
   justify-content: center;
   margin: 1em 20em;
   color: white;
-  border: 1px solid red;
+  /* border: 1px solid red; */
 `;
 
-const MovieCard = styled.div`
-  & > img {
-    display: inline-block;
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
-      rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
-      rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-  }
-`;
+interface MovieCardCoverType {
+  coverUrl: string;
+}
 
-const MovieCard2 = styled.div`
+const MovieCardCover = styled.div<MovieCardCoverType>`
   width: 158px;
   height: 234px;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
     rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
     rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-  background: url(${matrixPoster});
+  background: ${(props: MovieCardCoverType) =>
+    props.coverUrl ? `url(${props.coverUrl})` : '#fff'};
   background-size: cover;
   background-repeat: no-repeat;
 `;
 
-const MovieText = styled.div`
+const MovieCardText = styled.div`
   margin-top: 0.5em;
   text-align: left;
   font-size: 1em;
@@ -46,10 +41,10 @@ const MovieText = styled.div`
   }
 `;
 
-const MovieCardWrap = styled.div`
+const MovieCard = styled.div`
   flex: 0 0 18%;
   margin: 0.8em 1.3em;
-  border: 1px solid yellow;
+  /* border: 1px solid yellow; */
   & > * {
     display: block;
   }
@@ -57,104 +52,15 @@ const MovieCardWrap = styled.div`
 export const MovieCardsContainer = () => {
   return (
     <MovieCardContainer>
-      <MovieCardWrap>
+      {moviesArr.map((movie) => (
         <MovieCard>
-          <img
-            style={{ maxHeight: '100%', maxWidth: '100%' }}
-            src={moviePoster}
-            alt="Nx - Smart, Extensible Build Framework"
-          />
+          <MovieCardCover coverUrl={movie.coverUrl}></MovieCardCover>
+          <MovieCardText>
+            <span>{movie.title}</span>
+            <span>{movie.genre}</span>
+          </MovieCardText>
         </MovieCard>
-        <MovieText>
-          <span>Batman Begins</span>
-          <span>Action, Drama</span>
-        </MovieText>
-      </MovieCardWrap>
-      <MovieCardWrap>
-        <MovieCard2></MovieCard2>
-        <MovieText>
-          <span>Matrix</span>
-          <span>Action, Sci-fi</span>
-        </MovieText>
-      </MovieCardWrap>
-      <MovieCardWrap>
-        <MovieCard>
-          <img
-            style={{ maxHeight: '100%', maxWidth: '100%' }}
-            src={moviePoster}
-            alt="Nx - Smart, Extensible Build Framework"
-          />
-        </MovieCard>
-        <MovieText>
-          <span>Batman Begins</span>
-          <span>Action, Drama</span>
-        </MovieText>
-      </MovieCardWrap>
-      <MovieCardWrap>
-        <MovieCard>
-          <img
-            style={{ maxHeight: '100%', maxWidth: '100%' }}
-            src={moviePoster}
-            alt="Nx - Smart, Extensible Build Framework"
-          />
-        </MovieCard>
-        <MovieText>
-          <span>Batman Begins</span>
-          <span>Action, Drama</span>
-        </MovieText>
-      </MovieCardWrap>
-      <MovieCardWrap>
-        <MovieCard>
-          <img
-            style={{ maxHeight: '100%', maxWidth: '100%' }}
-            src={moviePoster}
-            alt="Nx - Smart, Extensible Build Framework"
-          />
-        </MovieCard>
-        <MovieText>
-          <span>Batman Begins</span>
-          <span>Action, Drama</span>
-        </MovieText>
-      </MovieCardWrap>
-      <MovieCardWrap>
-        <MovieCard>
-          <img
-            style={{ maxHeight: '100%', maxWidth: '100%' }}
-            src={moviePoster}
-            alt="Nx - Smart, Extensible Build Framework"
-          />
-        </MovieCard>
-        <MovieText>
-          <span>Batman Begins</span>
-          <span>Action, Drama</span>
-        </MovieText>
-      </MovieCardWrap>
-      <MovieCardWrap>
-        <MovieCard>
-          <img
-            style={{ maxHeight: '100%', maxWidth: '100%' }}
-            src={moviePoster}
-            alt="Nx - Smart, Extensible Build Framework"
-          />
-        </MovieCard>
-        <MovieText>
-          <span>Batman Begins</span>
-          <span>Action, Drama</span>
-        </MovieText>
-      </MovieCardWrap>
-      <MovieCardWrap>
-        <MovieCard>
-          <img
-            style={{ maxHeight: '100%', maxWidth: '100%' }}
-            src={moviePoster}
-            alt="Nx - Smart, Extensible Build Framework"
-          />
-        </MovieCard>
-        <MovieText>
-          <span>Batman Begins</span>
-          <span>Action, Drama</span>
-        </MovieText>
-      </MovieCardWrap>
+      ))}
     </MovieCardContainer>
   );
 };
