@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Message } from '@moviestory/api-interfaces';
 import styled from 'styled-components';
 
 import Select from 'react-select';
 import { MovieCardsContainer } from './components/MovieCardsContainer';
+
+import { MovieDataList } from '../app/interfaces/MovieDataList';
 
 const options = [
   { value: 'chocolate', label: 'Chocolate' },
@@ -23,11 +25,18 @@ const Wrapper = styled.div`
 
 export const App = () => {
   const [m, setMessage] = useState<Message>({ message: '' });
+  const [movieData, setMovieData] = useState<MovieDataList | undefined>(
+    undefined
+  );
 
   useEffect(() => {
-    fetch('/api')
+    fetch(
+      'https://api.themoviedb.org/3/movie/popular?api_key=472c2cb1250382eb1bb17a0fd614af0f&language=en-US&page=1'
+    )
       .then((r) => r.json())
-      .then(setMessage);
+      .then((movieData) =>
+        setMovieData({ results: movieData.results.slice(0, 8) })
+      );
   }, []);
 
   return (
@@ -39,7 +48,7 @@ export const App = () => {
           <div style={{ padding: '0 2em' }}>
             <Select options={options} />
           </div>
-          <MovieCardsContainer />
+          <MovieCardsContainer movieData={movieData} />
         </div>
       </Wrapper>
       {/* <div>{m.message}</div> */}

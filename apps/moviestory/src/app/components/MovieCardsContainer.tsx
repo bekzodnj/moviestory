@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
 import { moviesArr } from '../../assets/movieData';
+import { MovieDataList } from '../interfaces/MovieDataList';
+import { MovieCardCoverType } from '../interfaces/styled-component/MovieCardCoverType';
 
 const MovieCardContainer = styled.div`
   display: flex;
@@ -10,10 +12,6 @@ const MovieCardContainer = styled.div`
   color: white;
   /* border: 1px solid red; */
 `;
-
-interface MovieCardCoverType {
-  coverUrl: string;
-}
 
 const MovieCardCover = styled.div<MovieCardCoverType>`
   width: 158px;
@@ -49,18 +47,22 @@ const MovieCard = styled.div`
     display: block;
   }
 `;
-export const MovieCardsContainer = () => {
+export const MovieCardsContainer = ({ movieData }) => {
+  console.log(movieData);
   return (
     <MovieCardContainer>
-      {moviesArr.map((movie) => (
-        <MovieCard>
-          <MovieCardCover coverUrl={movie.coverUrl}></MovieCardCover>
-          <MovieCardText>
-            <span>{movie.title}</span>
-            <span>{movie.genre}</span>
-          </MovieCardText>
-        </MovieCard>
-      ))}
+      {movieData &&
+        movieData.results.map((movie, idx) => (
+          <MovieCard key={movie.title}>
+            <MovieCardCover
+              coverUrl={'https://image.tmdb.org/t/p/w500/' + movie.poster_path}
+            ></MovieCardCover>
+            <MovieCardText>
+              <span>{movie.title}</span>
+              <span>{movie.release_date.slice(0, 4)}</span>
+            </MovieCardText>
+          </MovieCard>
+        ))}
     </MovieCardContainer>
   );
 };
