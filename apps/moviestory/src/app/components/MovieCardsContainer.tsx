@@ -48,7 +48,6 @@ const MovieCard = styled.div`
   }
 `;
 export const MovieCardsContainer = ({ movieData }) => {
-  console.log(movieData);
   return (
     <MovieCardContainer>
       {movieData &&
