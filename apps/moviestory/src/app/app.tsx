@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import AsyncSelect from 'react-select/async';
 import { MovieCardsContainer } from './components/MovieCardsContainer';
+import { MovieDetails } from './components/MovieDetails';
 
 import { MovieDataList } from '../app/interfaces/MovieDataList';
 import { MovieDataType } from '../app/interfaces/MovieDataType';
@@ -36,6 +37,7 @@ export const App = () => {
   );
 
   const [selectedValue, setSelectedValue] = useState('');
+  const [selectedOption, setSelectedOption] = useState({});
   const [searchedMovies, setSearchedMovies] = useState<MovieDataType[]>();
 
   useEffect(() => {
@@ -71,6 +73,7 @@ export const App = () => {
   };
 
   const onHandleChange = (newOption) => {
+    setSelectedOption(newOption);
     setSelectedValue(newOption.title);
   };
 
@@ -93,7 +96,10 @@ export const App = () => {
               getOptionLabel={(option) => option.title}
             />
           </div>
-          <MovieCardsContainer movieData={movieData} />
+          <div style={{ display: 'flex', marginTop: '1em' }}>
+            <MovieCardsContainer movieData={movieData} />
+            <MovieDetails selectedOption={selectedOption} />
+          </div>
         </div>
       </Wrapper>
       {/* <div>{m.message}</div> */}

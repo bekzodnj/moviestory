@@ -8,8 +8,9 @@ const MovieCardContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin: 1em 20em;
+
   color: white;
+  flex-basis: 80%;
   /* border: 1px solid red; */
 `;
 
