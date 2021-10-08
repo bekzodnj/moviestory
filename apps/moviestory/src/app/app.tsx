@@ -57,14 +57,14 @@ export const App = () => {
   };
 
   const loadMovies = (inputValue: string) => {
-    console.log(inputValue);
+    // console.log(inputValue);
     fetch(
       `https://api.themoviedb.org/3/search/movie?api_key=472c2cb1250382eb1bb17a0fd614af0f&query=${inputValue}`
     )
       .then((r) => r.json())
       .then((movieData) => setSearchedMovies(movieData.results))
       .catch((error) => console.log(error));
-    console.log(searchedMovies);
+    // console.log(searchedMovies);
     return searchedMovies;
   };
 
@@ -97,7 +97,7 @@ export const App = () => {
             />
           </div>
           <div style={{ display: 'flex', marginTop: '1em' }}>
-            <MovieCardsContainer movieData={movieData} />
+            <MovieCardsContainer movieData={movieData?.results} />
             <MovieDetails selectedOption={selectedOption} />
           </div>
         </div>

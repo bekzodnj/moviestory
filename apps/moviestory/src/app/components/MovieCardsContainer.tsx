@@ -10,7 +10,7 @@ const MovieCardContainer = styled.div`
   justify-content: center;
 
   color: white;
-  flex-basis: 80%;
+  flex-basis: 70%;
   /* border: 1px solid red; */
 `;
 
@@ -52,7 +52,7 @@ export const MovieCardsContainer = ({ movieData }) => {
   return (
     <MovieCardContainer>
       {movieData &&
-        movieData.results.map((movie, idx) => (
+        movieData.map((movie, idx) => (
           <MovieCard key={movie.title}>
             <MovieCardCover
               coverUrl={'https://image.tmdb.org/t/p/w500/' + movie.poster_path}
