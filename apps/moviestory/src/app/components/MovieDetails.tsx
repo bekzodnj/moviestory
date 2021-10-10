@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import Emoji from './common/Emoji';
+import { withHover } from './common-styles/withHover';
 
 const Container = styled.div`
   background-color: white;
@@ -10,7 +12,16 @@ const Container = styled.div`
   padding: 1em;
 `;
 
-const AddButton = styled.button``;
+const AddButton = styled.button`
+  padding: 1em;
+  margin: 1em 0;
+  display: block;
+  transition: transform 130ms ease-out;
+
+  &:active {
+    transform: scale(0.95);
+  }
+`;
 
 const MovieTitle = styled.h1`
   color: black;
@@ -98,9 +109,9 @@ export const MovieDetails = ({ selectedOption }) => {
                     </span>
                   ))}
               </div>
-              <button style={{ display: 'block', padding: '1em' }}>
-                Add to the collection
-              </button>
+              <AddButton>
+                Add to the collection <Emoji symbol={'✅'} label="done" />
+              </AddButton>
             </MovieTopInfo>
           </MovieHeaderInfoWrap>
 

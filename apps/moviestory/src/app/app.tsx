@@ -81,7 +81,7 @@ export const App = () => {
     <>
       <Wrapper>
         <h2 style={{ color: '#fff', fontFamily: 'cursive' }}>
-          Movie Picks - {selectedValue}
+          Moviestory - {selectedValue}
         </h2>
 
         <div style={{ height: '100vh' }}>

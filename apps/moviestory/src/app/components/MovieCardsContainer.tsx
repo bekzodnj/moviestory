@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { moviesArr } from '../../assets/movieData';
 import { MovieDataList } from '../interfaces/MovieDataList';
 import { MovieCardCoverType } from '../interfaces/styled-component/MovieCardCoverType';
+import { SingleMovieCard } from './SingleMovieCard';
 
 const MovieCardContainer = styled.div`
   display: flex;
@@ -52,16 +53,11 @@ export const MovieCardsContainer = ({ movieData }) => {
   return (
     <MovieCardContainer>
       {movieData &&
-        movieData.map((movie, idx) => (
-          <MovieCard key={movie.title}>
-            <MovieCardCover
-              coverUrl={'https://image.tmdb.org/t/p/w500/' + movie.poster_path}
-            ></MovieCardCover>
-            <MovieCardText>
-              <span>{movie.title}</span>
-              <span>{movie.release_date.slice(0, 4)}</span>
-            </MovieCardText>
-          </MovieCard>
+        movieData.map((singleMovieData) => (
+          <SingleMovieCard
+            singleMovieData={singleMovieData}
+            isEmptyCard={false}
+          />
         ))}
     </MovieCardContainer>
   );

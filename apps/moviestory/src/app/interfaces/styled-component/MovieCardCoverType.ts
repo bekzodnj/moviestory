@@ -1,3 +1,4 @@
 export interface MovieCardCoverType {
-  coverUrl: string;
+  coverUrl?: string;
+  isEmpty: boolean;
 }
