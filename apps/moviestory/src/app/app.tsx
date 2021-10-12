@@ -11,12 +11,6 @@ import { MovieDataType } from '../app/interfaces/MovieDataType';
 
 import { debounce } from 'lodash';
 
-const options = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' },
-];
-
 const Wrapper = styled.div`
   background: radial-gradient(
     57.16% 142.36% at 70.37% 32.78%,
@@ -40,6 +34,10 @@ export const App = () => {
   const [selectedOption, setSelectedOption] = useState({});
   const [searchedMovies, setSearchedMovies] = useState<MovieDataType[]>();
 
+  const [pickedMovies, setPickedMovies] = useState([]);
+  const [pickedMovie, setPickedMovie] = useState();
+
+  // fetch the movies
   useEffect(() => {
     fetch(
       'https://api.themoviedb.org/3/movie/popular?api_key=472c2cb1250382eb1bb17a0fd614af0f&language=en-US&page=1'
@@ -49,6 +47,14 @@ export const App = () => {
         setMovieData({ results: movieData.results.slice(0, 8) })
       );
   }, []);
+
+  // fetch the movies
+  useEffect(() => {
+    const addedMovies = [...pickedMovies, pickedMovie] as any;
+    setPickedMovies(addedMovies);
+
+    console.log(pickedMovies);
+  }, [pickedMovie]);
 
   const handleInputChange = (newValue: string) => {
     // const inputValue = newValue.replace(/\W/g, '');
@@ -97,8 +103,14 @@ export const App = () => {
             />
           </div>
           <div style={{ display: 'flex', marginTop: '1em' }}>
-            <MovieCardsContainer movieData={movieData?.results} />
-            <MovieDetails selectedOption={selectedOption} />
+            <MovieCardsContainer
+              movieData={movieData?.results}
+              onMovieSelect={setSelectedOption}
+            />
+            <MovieDetails
+              selectedOption={selectedOption}
+              setPickedMovie={setPickedMovie}
+            />
           </div>
         </div>
       </Wrapper>

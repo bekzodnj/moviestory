@@ -9,7 +9,9 @@
     "strict": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "target": "ES6",
+    "lib": ["es5", "es6", "dom", "dom.iterable"]
   },
   "files": [],
   "include": [],

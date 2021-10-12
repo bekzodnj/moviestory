@@ -49,14 +49,16 @@ const MovieCard = styled.div`
     display: block;
   }
 `;
-export const MovieCardsContainer = ({ movieData }) => {
+
+export const MovieCardsContainer = ({ movieData, onMovieSelect }) => {
   return (
     <MovieCardContainer>
       {movieData &&
         movieData.map((singleMovieData) => (
           <SingleMovieCard
             singleMovieData={singleMovieData}
-            isEmptyCard={false}
+            isEmptyCard={true}
+            onMovieSelect={onMovieSelect}
           />
         ))}
     </MovieCardContainer>
