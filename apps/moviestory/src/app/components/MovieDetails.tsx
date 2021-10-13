@@ -17,7 +17,9 @@ const AddButton = styled.button`
   margin: 1em 0;
   display: block;
   transition: transform 130ms ease-out;
-
+  &:hover {
+    cursor: pointer;
+  }
   &:active {
     transform: scale(0.95);
   }
@@ -70,7 +72,7 @@ const MovieHeaderInfoWrap = styled.div`
   display: flex;
 `;
 
-export const MovieDetails = ({ selectedOption }) => {
+export const MovieDetails = ({ selectedOption, setPickedMovies }) => {
   const [movieData, setMovieData] = useState<MovieData | null>(null);
   useEffect(() => {
     fetch(
@@ -80,6 +82,15 @@ export const MovieDetails = ({ selectedOption }) => {
       .then((movieData) => setMovieData(movieData));
   }, [selectedOption.id]);
 
+  const addToCollection = (selectedOption) => {
+    setPickedMovies((prevState) => {
+      if (Array.isArray(prevState)) {
+        return [...prevState, selectedOption];
+      } else {
+        return [selectedOption];
+      }
+    });
+  };
   return (
     <Container>
       {movieData && (
@@ -109,7 +120,7 @@ export const MovieDetails = ({ selectedOption }) => {
                     </span>
                   ))}
               </div>
-              <AddButton>
+              <AddButton onClick={() => addToCollection(selectedOption)}>
                 Add to the collection <Emoji symbol={'✅'} label="done" />
               </AddButton>
             </MovieTopInfo>

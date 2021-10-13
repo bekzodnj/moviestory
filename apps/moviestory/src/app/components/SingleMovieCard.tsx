@@ -68,13 +68,17 @@ const MovieCardText = styled.div`
   }
 `;
 
-export const SingleMovieCard = ({ singleMovieData, isEmptyCard }) => {
+export const SingleMovieCard = ({
+  singleMovieData,
+  isEmptyCard,
+  onMovieSelect,
+}) => {
   let movieCardElem;
   if (isEmptyCard) {
     movieCardElem = (
       <MovieCard key={singleMovieData.title}>
         <MovieCardCover coverUrl={''} isEmpty={isEmptyCard}>
-          <div>Movie goes here</div>
+          <div>A movie goes here</div>
           <div className="wrap">
             <div className="line"></div>
             <div className="line horizontal"></div>
@@ -85,7 +89,10 @@ export const SingleMovieCard = ({ singleMovieData, isEmptyCard }) => {
     );
   } else {
     movieCardElem = (
-      <MovieCard key={singleMovieData.title}>
+      <MovieCard
+        key={singleMovieData.title}
+        onClick={() => onMovieSelect(singleMovieData)}
+      >
         <MovieCardCover
           isEmpty={isEmptyCard}
           coverUrl={
