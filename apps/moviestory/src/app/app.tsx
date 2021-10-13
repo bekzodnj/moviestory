@@ -30,12 +30,15 @@ export const App = () => {
     undefined
   );
 
+  // for search input
   const [selectedValue, setSelectedValue] = useState('');
   const [selectedOption, setSelectedOption] = useState({});
   const [searchedMovies, setSearchedMovies] = useState<MovieDataType[]>();
 
-  const [pickedMovies, setPickedMovies] = useState([]);
-  const [pickedMovie, setPickedMovie] = useState();
+  // Adding movie to the collection
+  const [pickedMovies, setPickedMovies] = useState<MovieDataType[] | null>(
+    null
+  );
 
   // fetch the movies
   useEffect(() => {
@@ -48,13 +51,10 @@ export const App = () => {
       );
   }, []);
 
-  // fetch the movies
+  // add to the collection
   useEffect(() => {
-    const addedMovies = [...pickedMovies, pickedMovie] as any;
-    setPickedMovies(addedMovies);
-
     console.log(pickedMovies);
-  }, [pickedMovie]);
+  }, [pickedMovies]);
 
   const handleInputChange = (newValue: string) => {
     // const inputValue = newValue.replace(/\W/g, '');
@@ -63,14 +63,13 @@ export const App = () => {
   };
 
   const loadMovies = (inputValue: string) => {
-    // console.log(inputValue);
     fetch(
       `https://api.themoviedb.org/3/search/movie?api_key=472c2cb1250382eb1bb17a0fd614af0f&query=${inputValue}`
     )
       .then((r) => r.json())
       .then((movieData) => setSearchedMovies(movieData.results))
       .catch((error) => console.log(error));
-    // console.log(searchedMovies);
+
     return searchedMovies;
   };
 
@@ -104,12 +103,12 @@ export const App = () => {
           </div>
           <div style={{ display: 'flex', marginTop: '1em' }}>
             <MovieCardsContainer
-              movieData={movieData?.results}
+              movieData={pickedMovies}
               onMovieSelect={setSelectedOption}
             />
             <MovieDetails
               selectedOption={selectedOption}
-              setPickedMovie={setPickedMovie}
+              setPickedMovies={setPickedMovies}
             />
           </div>
         </div>

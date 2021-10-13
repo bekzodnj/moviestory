@@ -57,7 +57,7 @@ export const MovieCardsContainer = ({ movieData, onMovieSelect }) => {
         movieData.map((singleMovieData) => (
           <SingleMovieCard
             singleMovieData={singleMovieData}
-            isEmptyCard={true}
+            isEmptyCard={false}
             onMovieSelect={onMovieSelect}
           />
         ))}
