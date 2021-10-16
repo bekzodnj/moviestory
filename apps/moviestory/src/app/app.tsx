@@ -8,7 +8,7 @@ import { MovieDetails } from './components/MovieDetails';
 
 import { MovieDataList } from '../app/interfaces/MovieDataList';
 import { MovieDataType } from '../app/interfaces/MovieDataType';
-
+import { TopButton } from './components/common/TopButton';
 import { debounce } from 'lodash';
 
 const Wrapper = styled.div`
@@ -39,6 +39,9 @@ export const App = () => {
   const [pickedMovies, setPickedMovies] = useState<MovieDataType[] | null>(
     null
   );
+
+  // Number of cards
+  const [numberOfCards, setNumberOfCards] = useState(8);
 
   // fetch the movies
   useEffect(() => {
@@ -101,10 +104,24 @@ export const App = () => {
               getOptionLabel={(option) => option.title}
             />
           </div>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginTop: '1em',
+              color: 'wheat',
+            }}
+          >
+            <TopButton btnNumber={4} setNumberOfCards={setNumberOfCards} />
+            <TopButton btnNumber={6} setNumberOfCards={setNumberOfCards} />
+            <TopButton btnNumber={8} setNumberOfCards={setNumberOfCards} />
+          </div>
           <div style={{ display: 'flex', marginTop: '1em' }}>
             <MovieCardsContainer
-              movieData={pickedMovies}
+              movieData={movieData?.results} //{pickedMovies}
               onMovieSelect={setSelectedOption}
+              numberOfCards={numberOfCards}
             />
             <MovieDetails
               selectedOption={selectedOption}

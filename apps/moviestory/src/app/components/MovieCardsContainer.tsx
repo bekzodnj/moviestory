@@ -50,13 +50,27 @@ const MovieCard = styled.div`
   }
 `;
 
-export const MovieCardsContainer = ({ movieData, onMovieSelect }) => {
+export const MovieCardsContainer = ({
+  movieData,
+  onMovieSelect,
+  numberOfCards,
+}) => {
+  const numberOfCardsArr = new Array(numberOfCards).fill(1);
   return (
     <MovieCardContainer>
-      {movieData &&
+      {/* {movieData &&
         movieData.map((singleMovieData) => (
           <SingleMovieCard
             singleMovieData={singleMovieData}
+            isEmptyCard={true}
+            onMovieSelect={onMovieSelect}
+          />
+        ))} */}
+
+      {movieData &&
+        numberOfCardsArr.map((elem, index, arr) => (
+          <SingleMovieCard
+            singleMovieData={movieData[index]}
             isEmptyCard={false}
             onMovieSelect={onMovieSelect}
           />
