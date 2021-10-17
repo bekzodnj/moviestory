@@ -40,7 +40,7 @@ export const App = () => {
     null
   );
 
-  // Number of cards
+  // Number of cards - TopButton
   const [numberOfCards, setNumberOfCards] = useState(8);
 
   // fetch the movies
@@ -85,6 +85,8 @@ export const App = () => {
     setSelectedValue(newOption.title);
   };
 
+  console.log('App rendered');
+
   return (
     <>
       <Wrapper>
@@ -119,13 +121,14 @@ export const App = () => {
           </div>
           <div style={{ display: 'flex', marginTop: '1em' }}>
             <MovieCardsContainer
-              movieData={movieData?.results} //{pickedMovies}
+              movieData={pickedMovies} //{pickedMovies}
               onMovieSelect={setSelectedOption}
               numberOfCards={numberOfCards}
             />
             <MovieDetails
               selectedOption={selectedOption}
               setPickedMovies={setPickedMovies}
+              pickedMovies={pickedMovies}
             />
           </div>
         </div>

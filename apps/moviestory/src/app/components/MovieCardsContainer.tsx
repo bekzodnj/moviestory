@@ -55,26 +55,16 @@ export const MovieCardsContainer = ({
   onMovieSelect,
   numberOfCards,
 }) => {
-  const numberOfCardsArr = new Array(numberOfCards).fill(1);
+  const numberOfCardsArr = new Array(numberOfCards).fill(numberOfCards);
+  console.log('MovieCardsContainer rendered');
   return (
     <MovieCardContainer>
-      {/* {movieData &&
-        movieData.map((singleMovieData) => (
-          <SingleMovieCard
-            singleMovieData={singleMovieData}
-            isEmptyCard={true}
-            onMovieSelect={onMovieSelect}
-          />
-        ))} */}
-
-      {movieData &&
-        numberOfCardsArr.map((elem, index, arr) => (
-          <SingleMovieCard
-            singleMovieData={movieData[index]}
-            isEmptyCard={false}
-            onMovieSelect={onMovieSelect}
-          />
-        ))}
+      {numberOfCardsArr.map((elem, index, arr) => (
+        <SingleMovieCard
+          singleMovieData={!movieData ? undefined : movieData[index]}
+          onMovieSelect={onMovieSelect}
+        />
+      ))}
     </MovieCardContainer>
   );
 };

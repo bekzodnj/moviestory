@@ -72,7 +72,21 @@ const MovieHeaderInfoWrap = styled.div`
   display: flex;
 `;
 
-export const MovieDetails = ({ selectedOption, setPickedMovies }) => {
+console.log('MovieDetails rendered');
+export const MovieDetails = ({
+  selectedOption,
+  setPickedMovies,
+  pickedMovies,
+}) => {
+  const [isMoviePicked, setIsMoviePicked] = useState(false);
+  useEffect(() => {
+    const isMovieSelected = pickedMovies
+      ?.map((elem) => elem.id)
+      .includes(selectedOption.id);
+
+    setIsMoviePicked(isMovieSelected);
+  }, [pickedMovies, selectedOption.id]);
+
   const [movieData, setMovieData] = useState<MovieData | null>(null);
   useEffect(() => {
     fetch(
@@ -121,7 +135,9 @@ export const MovieDetails = ({ selectedOption, setPickedMovies }) => {
                   ))}
               </div>
               <AddButton onClick={() => addToCollection(selectedOption)}>
-                Add to the collection <Emoji symbol={'✅'} label="done" />
+                {isMoviePicked
+                  ? 'Remove from Collection '
+                  : 'Add to the collection'}
               </AddButton>
             </MovieTopInfo>
           </MovieHeaderInfoWrap>
@@ -132,3 +148,4 @@ export const MovieDetails = ({ selectedOption, setPickedMovies }) => {
     </Container>
   );
 };
+//<Emoji symbol={'✅'} label="done" />

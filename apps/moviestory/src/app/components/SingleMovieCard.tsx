@@ -67,16 +67,14 @@ const MovieCardText = styled.div`
     font-size: 0.9em;
   }
 `;
+console.log('SingleMovieCard rendered');
 
-export const SingleMovieCard = ({
-  singleMovieData,
-  isEmptyCard,
-  onMovieSelect,
-}) => {
+export const SingleMovieCard = ({ singleMovieData, onMovieSelect }) => {
   let movieCardElem;
+  const isEmptyCard = !singleMovieData;
   if (isEmptyCard) {
     movieCardElem = (
-      <MovieCard key={singleMovieData.title}>
+      <MovieCard>
         <MovieCardCover coverUrl={''} isEmpty={isEmptyCard}>
           <div>A movie goes here</div>
           <div className="wrap">
