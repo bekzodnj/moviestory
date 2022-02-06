@@ -99,12 +99,22 @@ export const MovieDetails = ({
   const addToCollection = (selectedOption) => {
     setPickedMovies((prevState) => {
       if (Array.isArray(prevState)) {
+        // TODO: check why isArray needed?
         return [...prevState, selectedOption];
       } else {
         return [selectedOption];
       }
     });
   };
+
+  const removeFromCollection = (selectedOption) => {
+    setPickedMovies((previoslyPickedMovies) => {
+      return previoslyPickedMovies?.filter(
+        (movieItem) => movieItem.id !== selectedOption.id
+      );
+    });
+  };
+
   return (
     <Container>
       {movieData && (
@@ -134,11 +144,16 @@ export const MovieDetails = ({
                     </span>
                   ))}
               </div>
-              <AddButton onClick={() => addToCollection(selectedOption)}>
-                {isMoviePicked
-                  ? 'Remove from Collection '
-                  : 'Add to the collection'}
-              </AddButton>
+
+              {isMoviePicked ? (
+                <AddButton onClick={() => removeFromCollection(selectedOption)}>
+                  Remove from Collection
+                </AddButton>
+              ) : (
+                <AddButton onClick={() => addToCollection(selectedOption)}>
+                  Add from Collection
+                </AddButton>
+              )}
             </MovieTopInfo>
           </MovieHeaderInfoWrap>
 
