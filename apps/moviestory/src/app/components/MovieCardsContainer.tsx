@@ -56,11 +56,12 @@ export const MovieCardsContainer = ({
   numberOfCards,
 }) => {
   const numberOfCardsArr = new Array(numberOfCards).fill(numberOfCards);
-  console.log('MovieCardsContainer rendered');
+  // console.log('MovieCardsContainer rendered');
   return (
     <MovieCardContainer>
       {numberOfCardsArr.map((elem, index, arr) => (
         <SingleMovieCard
+          key={index.toString()}
           singleMovieData={!movieData ? undefined : movieData[index]}
           onMovieSelect={onMovieSelect}
         />

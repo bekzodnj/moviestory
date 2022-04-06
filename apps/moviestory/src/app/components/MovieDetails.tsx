@@ -2,20 +2,40 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Emoji from './common/Emoji';
+import { device } from './common/Constants';
 import { withHover } from './common-styles/withHover';
+import { MovieDetailsType } from '../interfaces/MovieDetailsType';
 
 const Container = styled.div`
-  background-color: white;
-  flex-basis: 30%;
+  background-color: #0c0b10;
+  font-family: 'Raleway', sans-serif;
+  color: white;
+  flex-basis: 40%;
   display: flex;
   justify-content: center;
-  padding: 1em;
+  padding: 1em 2em;
+  transition: padding linear 0.2s;
+
+  @media ${device.laptop} {
+    padding: 2em 3em;
+  }
+`;
+
+const MovieTextBlock = styled.div`
+  margin-bottom: 10px; ;
+`;
+
+const MovieTextBlockSecondary = styled.p`
+  color: #ffffffb0;
 `;
 
 const AddButton = styled.button`
   padding: 1em;
   margin: 1em 0;
-  display: block;
+
+  line-height: 1;
+  cursor: pointer;
+
   transition: transform 130ms ease-out;
   &:hover {
     cursor: pointer;
@@ -26,59 +46,41 @@ const AddButton = styled.button`
 `;
 
 const MovieTitle = styled.h1`
-  color: black;
+  // <h1> remove default padding, margin
+  padding: 0;
+  margin: 0rem;
+
+  color: white;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 700;
+  margin-bottom: 0.8rem;
 `;
 
-interface MovieData {
-  adult: boolean;
-  backdrop_path: string;
-  belongs_to_collection: {
-    id: number;
-    name: string;
-    poster_path: string;
-    backdrop_path: null;
-  };
-  budget: number;
-  genres: {
-    id: number;
-    name;
-  }[];
-  homepage: string;
-  id: number;
-  imdb_id: string;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  production_companies: [];
-  production_countries: [];
-  release_date: string;
-  revenue: number;
-  runtime: number;
-  spoken_languages: [];
-  status: string;
-  tagline: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-}
-
-const MovieTopInfo = styled.div`
+const MovieDescription = styled.div`
+  color: #ffffffe3;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 400;
+  line-height: 24px;
+  text-align: justify;
   font-size: 1em;
 `;
-const MovieHeaderInfoWrap = styled.div`
+
+const MovieGeneralInfo = styled.div`
+  font-size: 1em;
+  margin-bottom: 1rem;
+`;
+const MoviePosterAndInfo = styled.div`
   display: flex;
 `;
 
-console.log('MovieDetails rendered');
+// console.log('MovieDetails rendered');
 export const MovieDetails = ({
   selectedOption,
   setPickedMovies,
   pickedMovies,
 }) => {
   const [isMoviePicked, setIsMoviePicked] = useState(false);
+
   useEffect(() => {
     const isMovieSelected = pickedMovies
       ?.map((elem) => elem.id)
@@ -87,7 +89,7 @@ export const MovieDetails = ({
     setIsMoviePicked(isMovieSelected);
   }, [pickedMovies, selectedOption.id]);
 
-  const [movieData, setMovieData] = useState<MovieData | null>(null);
+  const [movieData, setMovieData] = useState<MovieDetailsType | null>(null);
   useEffect(() => {
     fetch(
       `https://api.themoviedb.org/3/movie/${selectedOption.id}?api_key=472c2cb1250382eb1bb17a0fd614af0f&language=en-US`
@@ -120,8 +122,9 @@ export const MovieDetails = ({
       {movieData && (
         <div>
           <MovieTitle>{selectedOption.title}</MovieTitle>
-          <MovieHeaderInfoWrap>
-            <div>
+
+          <MoviePosterAndInfo>
+            <div style={{ marginRight: '1rem' }}>
               {movieData?.poster_path && (
                 <img
                   width={150}
@@ -130,34 +133,52 @@ export const MovieDetails = ({
                 />
               )}
             </div>
-            <MovieTopInfo>
-              <div>Year: {selectedOption.release_date}</div>
-              <div>Tagline: {movieData?.tagline}</div>
+            <MovieGeneralInfo>
+              <MovieTextBlock>
+                <MovieTextBlockSecondary>Genre</MovieTextBlockSecondary>
+                <div className="movie-genres">
+                  {movieData.genres &&
+                    movieData?.genres.map((genre, id, arr) => (
+                      <span key={id.toString()}>
+                        {'  ' + genre.name + ' '}
+                        {id < arr.length - 1 ? '⸱ ' : ''}
+                      </span>
+                    ))}
+                </div>
+              </MovieTextBlock>
 
-              <div>
-                Genres:{' '}
-                {movieData.genres &&
-                  movieData?.genres.map((genre, id, arr) => (
-                    <span>
-                      {genre.name}
-                      {id < arr.length - 1 ? ', ' : ''}
-                    </span>
-                  ))}
+              <div style={{ marginBottom: '10px' }}>
+                <MovieTextBlockSecondary>Year</MovieTextBlockSecondary>{' '}
+                {selectedOption.release_date?.substring(0, 4)}
               </div>
+
+              {movieData?.tagline && (
+                <div>
+                  <MovieTextBlockSecondary>Tagline</MovieTextBlockSecondary>{' '}
+                  {movieData?.tagline}
+                </div>
+              )}
 
               {isMoviePicked ? (
                 <AddButton onClick={() => removeFromCollection(selectedOption)}>
-                  Remove from Collection
+                  Remove from the Collection
                 </AddButton>
               ) : (
                 <AddButton onClick={() => addToCollection(selectedOption)}>
-                  Add from Collection
+                  Add to the Collection
                 </AddButton>
               )}
-            </MovieTopInfo>
-          </MovieHeaderInfoWrap>
+            </MovieGeneralInfo>
+          </MoviePosterAndInfo>
 
-          <div>{movieData?.overview}</div>
+          <MovieDescription>{movieData?.overview}</MovieDescription>
+          {/* Poster */}
+          {/* <div>
+            <img
+              src={`https://image.tmdb.org/t/p/w500/${selectedOption.backdrop_path}`}
+              alt="movie poster"
+            />
+          </div> */}
         </div>
       )}
     </Container>

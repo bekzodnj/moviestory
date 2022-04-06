@@ -33,7 +33,6 @@ export const App = () => {
   // for search input
   const [selectedValue, setSelectedValue] = useState('');
   const [selectedOption, setSelectedOption] = useState({});
-  const [searchedMovies, setSearchedMovies] = useState<MovieDataType[]>();
 
   // Adding movie to the collection
   const [pickedMovies, setPickedMovies] = useState<MovieDataType[] | null>(
@@ -43,10 +42,10 @@ export const App = () => {
   // Number of cards - TopButton
   const [numberOfCards, setNumberOfCards] = useState(8);
 
-  // fetch the movies
+  // fetch the Popular movies list - NOT USED
   useEffect(() => {
     fetch(
-      'https://api.themoviedb.org/3/movie/popular?api_key=472c2cb1250382eb1bb17a0fd614af0f&language=en-US&page=1'
+      'https://api.themoviedb.org/3/movie/popular?api_key=472c2cb1250382eb1bb17a0fd614af0f&language=en-US&include_adult=false&page=1'
     )
       .then((r) => r.json())
       .then((movieData) =>
@@ -56,7 +55,7 @@ export const App = () => {
 
   // add to the collection
   useEffect(() => {
-    console.log(pickedMovies);
+    // console.log(pickedMovies);
   }, [pickedMovies]);
 
   const handleInputChange = (newValue: string) => {
@@ -66,18 +65,15 @@ export const App = () => {
   };
 
   const loadMovies = (inputValue: string) => {
-    fetch(
+    return fetch(
       `https://api.themoviedb.org/3/search/movie?api_key=472c2cb1250382eb1bb17a0fd614af0f&query=${inputValue}`
     )
       .then((r) => r.json())
-      .then((movieData) => setSearchedMovies(movieData.results))
+      .then((movieData) => {
+        //setSearchedMovies(movieData.results);
+        return movieData.results;
+      })
       .catch((error) => console.log(error));
-
-    return searchedMovies;
-  };
-
-  const loadOptions = (inputValue: string, callback: (newoptions) => void) => {
-    callback(loadMovies(inputValue));
   };
 
   const onHandleChange = (newOption) => {
@@ -85,56 +81,62 @@ export const App = () => {
     setSelectedValue(newOption.title);
   };
 
-  console.log('App rendered');
-
   return (
-    <>
-      <Wrapper>
-        <h2 style={{ color: '#fff', fontFamily: 'cursive' }}>
-          Moviestory - {selectedValue}
-        </h2>
+    <Wrapper>
+      <h2 style={{ color: '#fff', fontFamily: 'cursive' }}>
+        Busterly - {selectedValue}
+      </h2>
 
-        <div style={{ height: '100vh' }}>
-          <div style={{ padding: '0 2em' }}>
-            <AsyncSelect
-              value={selectedValue}
-              loadOptions={loadOptions}
-              onInputChange={handleInputChange}
-              onChange={onHandleChange}
-              defaultOptions
-              getOptionValue={(option) => option.title}
-              getOptionLabel={(option) => option.title}
-            />
-          </div>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginTop: '1em',
-              color: 'wheat',
+      <div style={{ height: '100vh' }}>
+        <div style={{ padding: '0 2em' }}>
+          <AsyncSelect
+            value={selectedValue}
+            loadOptions={loadMovies}
+            onInputChange={handleInputChange}
+            onChange={onHandleChange}
+            defaultOptions
+            getOptionValue={(option) => option.title}
+            getOptionLabel={(option: MovieDataType) => {
+              if (option.release_date) {
+                return (
+                  option.title +
+                  ' (' +
+                  option.release_date.substring(0, 4) +
+                  ')'
+                );
+              } else {
+                return option.title;
+              }
             }}
-          >
-            <TopButton btnNumber={4} setNumberOfCards={setNumberOfCards} />
-            <TopButton btnNumber={6} setNumberOfCards={setNumberOfCards} />
-            <TopButton btnNumber={8} setNumberOfCards={setNumberOfCards} />
-          </div>
-          <div style={{ display: 'flex', marginTop: '1em' }}>
-            <MovieCardsContainer
-              movieData={pickedMovies} //{pickedMovies}
-              onMovieSelect={setSelectedOption}
-              numberOfCards={numberOfCards}
-            />
-            <MovieDetails
-              selectedOption={selectedOption}
-              setPickedMovies={setPickedMovies}
-              pickedMovies={pickedMovies}
-            />
-          </div>
+          />
         </div>
-      </Wrapper>
-      {/* <div>{m.message}</div> */}
-    </>
+        {/* <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: '1em',
+            color: 'wheat',
+          }}
+        >
+          <TopButton btnNumber={4} setNumberOfCards={setNumberOfCards} />
+          <TopButton btnNumber={6} setNumberOfCards={setNumberOfCards} />
+          <TopButton btnNumber={8} setNumberOfCards={setNumberOfCards} />
+        </div> */}
+        <div style={{ display: 'flex', marginTop: '1em' }}>
+          <MovieCardsContainer
+            movieData={pickedMovies} //{pickedMovies}
+            onMovieSelect={setSelectedOption}
+            numberOfCards={numberOfCards}
+          />
+          <MovieDetails
+            selectedOption={selectedOption}
+            setPickedMovies={setPickedMovies}
+            pickedMovies={pickedMovies}
+          />
+        </div>
+      </div>
+    </Wrapper>
   );
 };
 

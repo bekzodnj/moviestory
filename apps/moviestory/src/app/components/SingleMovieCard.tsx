@@ -9,7 +9,7 @@ const MovieCard = styled(withHover).attrs({
   as: 'div',
 })`
   flex: 0 0 18%;
-  margin: 0.8em 1.3em;
+  margin: 0.8em 0.8em;
 
   /* border: 1px solid yellow; */
   & > * {
@@ -67,7 +67,7 @@ const MovieCardText = styled.div`
     font-size: 0.9em;
   }
 `;
-console.log('SingleMovieCard rendered');
+// console.log('SingleMovieCard rendered');
 
 export const SingleMovieCard = ({ singleMovieData, onMovieSelect }) => {
   let movieCardElem;
@@ -99,7 +99,7 @@ export const SingleMovieCard = ({ singleMovieData, onMovieSelect }) => {
         ></MovieCardCover>
         <MovieCardText>
           <span>{singleMovieData.title}</span>
-          <span>{singleMovieData.release_date.slice(0, 4)}</span>
+          <span>{singleMovieData?.release_date?.slice(0, 4)}</span>
         </MovieCardText>
       </MovieCard>
     );
