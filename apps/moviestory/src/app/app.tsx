@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { Message } from '@moviestory/api-interfaces';
 import styled from 'styled-components';
 
@@ -64,17 +64,23 @@ export const App = () => {
     return newValue;
   };
 
-  const loadMovies = (inputValue: string) => {
+  const _loadMovies = (inputValue: string) => {
     return fetch(
       `https://api.themoviedb.org/3/search/movie?api_key=472c2cb1250382eb1bb17a0fd614af0f&query=${inputValue}`
     )
       .then((r) => r.json())
       .then((movieData) => {
-        //setSearchedMovies(movieData.results);
         return movieData.results;
       })
       .catch((error) => console.log(error));
   };
+
+  const loadMovies = useCallback(
+    debounce((inputValue, callback) => {
+      _loadMovies(inputValue).then((options) => callback(options));
+    }, 500),
+    []
+  );
 
   const onHandleChange = (newOption) => {
     setSelectedOption(newOption);
@@ -110,19 +116,7 @@ export const App = () => {
             }}
           />
         </div>
-        {/* <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginTop: '1em',
-            color: 'wheat',
-          }}
-        >
-          <TopButton btnNumber={4} setNumberOfCards={setNumberOfCards} />
-          <TopButton btnNumber={6} setNumberOfCards={setNumberOfCards} />
-          <TopButton btnNumber={8} setNumberOfCards={setNumberOfCards} />
-        </div> */}
+
         <div style={{ display: 'flex', marginTop: '1em' }}>
           <MovieCardsContainer
             movieData={pickedMovies} //{pickedMovies}
