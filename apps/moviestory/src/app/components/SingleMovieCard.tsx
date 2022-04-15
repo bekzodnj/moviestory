@@ -10,10 +10,30 @@ const MovieCard = styled(withHover).attrs({
 })`
   flex: 0 0 18%;
   margin: 0.8em 0.8em;
-
+  position: relative;
   /* border: 1px solid yellow; */
   & > * {
     display: block;
+  }
+
+  &:hover > button {
+    visibility: visible;
+    opacity: 1;
+  }
+`;
+
+const RemoveMovieButton = styled.button`
+  all: unset;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.1s linear, opacity 0.1s linear;
+
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+  font-size: 2em;
+  &:focus {
+    outline: 0;
   }
 `;
 
@@ -67,7 +87,6 @@ const MovieCardText = styled.div`
     font-size: 0.9em;
   }
 `;
-// console.log('SingleMovieCard rendered');
 
 export const SingleMovieCard = ({ singleMovieData, onMovieSelect }) => {
   let movieCardElem;
@@ -75,6 +94,9 @@ export const SingleMovieCard = ({ singleMovieData, onMovieSelect }) => {
   if (isEmptyCard) {
     movieCardElem = (
       <MovieCard>
+        <RemoveMovieButton>
+          <Emoji symbol="❎" />
+        </RemoveMovieButton>
         <MovieCardCover coverUrl={''} isEmpty={isEmptyCard}>
           <div>A movie goes here</div>
           <div className="wrap">
@@ -91,6 +113,9 @@ export const SingleMovieCard = ({ singleMovieData, onMovieSelect }) => {
         key={singleMovieData.title}
         onClick={() => onMovieSelect(singleMovieData)}
       >
+        <RemoveMovieButton>
+          <Emoji symbol="❎" />
+        </RemoveMovieButton>
         <MovieCardCover
           isEmpty={isEmptyCard}
           coverUrl={

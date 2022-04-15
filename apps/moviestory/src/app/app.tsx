@@ -119,7 +119,7 @@ export const App = () => {
 
         <div style={{ display: 'flex', marginTop: '1em' }}>
           <MovieCardsContainer
-            movieData={pickedMovies} //{pickedMovies}
+            movieData={pickedMovies}
             onMovieSelect={setSelectedOption}
             numberOfCards={numberOfCards}
           />

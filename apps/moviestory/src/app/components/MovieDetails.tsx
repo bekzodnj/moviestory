@@ -1,7 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Emoji from './common/Emoji';
+import { ActionButton } from './common/ActionButton';
 import { device } from './common/Constants';
 import { withHover } from './common-styles/withHover';
 import { MovieDetailsType } from '../interfaces/MovieDetailsType';
@@ -27,22 +27,6 @@ const MovieTextBlock = styled.div`
 
 const MovieTextBlockSecondary = styled.p`
   color: #ffffffb0;
-`;
-
-const AddButton = styled.button`
-  padding: 1em;
-  margin: 1em 0;
-
-  line-height: 1;
-  cursor: pointer;
-
-  transition: transform 130ms ease-out;
-  &:hover {
-    cursor: pointer;
-  }
-  &:active {
-    transform: scale(0.95);
-  }
 `;
 
 const MovieTitle = styled.h1`
@@ -73,7 +57,6 @@ const MoviePosterAndInfo = styled.div`
   display: flex;
 `;
 
-// console.log('MovieDetails rendered');
 export const MovieDetails = ({
   selectedOption,
   setPickedMovies,
@@ -101,7 +84,6 @@ export const MovieDetails = ({
   const addToCollection = (selectedOption) => {
     setPickedMovies((prevState) => {
       if (Array.isArray(prevState)) {
-        // TODO: check why isArray needed?
         return [...prevState, selectedOption];
       } else {
         return [selectedOption];
@@ -160,13 +142,17 @@ export const MovieDetails = ({
               )}
 
               {isMoviePicked ? (
-                <AddButton onClick={() => removeFromCollection(selectedOption)}>
-                  Remove from the Collection
-                </AddButton>
+                <ActionButton
+                  isRemoveFromCollection={isMoviePicked}
+                  onClickAction={removeFromCollection}
+                  selectedOption={selectedOption}
+                />
               ) : (
-                <AddButton onClick={() => addToCollection(selectedOption)}>
-                  Add to the Collection
-                </AddButton>
+                <ActionButton
+                  isRemoveFromCollection={isMoviePicked}
+                  onClickAction={addToCollection}
+                  selectedOption={selectedOption}
+                />
               )}
             </MovieGeneralInfo>
           </MoviePosterAndInfo>
